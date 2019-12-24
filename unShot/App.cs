@@ -8,13 +8,19 @@ namespace UnShot
     {
         public const string AppId = "de.marcusw.unshot";
 
-        public App() : base(AppId, ApplicationFlags.None)
-        {
-        }
+        public const string ScreenshotAllActionName = "screenshot-all";
+        public const string ScreenshotWindowActionName = "screenshot-window";
+        public const string ScreenshotSelectionActionName = "screenshot-selection";
+
+        public App() : base(AppId, ApplicationFlags.None) { }
 
         protected override void OnStartup()
         {
             base.OnStartup();
+
+            AddActions();
+
+            // commandline...
         }
 
         protected override void OnActivated()
@@ -27,8 +33,38 @@ namespace UnShot
             settingsWindow.Show();
         }
 
+        private void AddActions()
+        {
+            var screenshotAllAction = new SimpleAction(ScreenshotAllActionName, null);
+            screenshotAllAction.Activated += OnScreenshotAllActionActivated;
+            AddAction(screenshotAllAction);
+
+            var screenshotWindowAction = new SimpleAction(ScreenshotWindowActionName, null);
+            screenshotWindowAction.Activated += OnScreenshotWindowActionActivated;
+            AddAction(screenshotWindowAction);
+
+            var screenshotSelectionAction = new SimpleAction(ScreenshotSelectionActionName, null);
+            screenshotSelectionAction.Activated += OnScreenshotSelectionActionActivated;
+            AddAction(screenshotSelectionAction);
+        }
+
+        private void OnScreenshotAllActionActivated(object o, ActivatedArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnScreenshotWindowActionActivated(object o, ActivatedArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnScreenshotSelectionActionActivated(object o, ActivatedArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
         [STAThread]
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
             // Initialisation
             Init();
@@ -40,7 +76,7 @@ namespace UnShot
             app.Register(Cancellable.Current);
 
             // Run the application
-            ((Application) app).Run();
+            return app.Run(AppId, args);
         }
     }
 }
